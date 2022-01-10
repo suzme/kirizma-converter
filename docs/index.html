@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="ja">
+  <head>
+    <meta charset="utf-8"/>
+    <title>kirizma-converter</title>
+    <link rel="stylesheet" href="index.css"/>
+  </head>
+  <body>
+    <div id="input-container">
+      <h1>キリズマ変換機</h1>
+      <div>
+        <h2>タイミングデータ(dos)</h2>
+        <textarea id="input-dos" placeholder="|left_data=300,400,500|"></textarea>
+      </div>
+      <div>
+        <h2>かな文字データ</h2>
+        <textarea id="input-kana" placeholder="なのはなばたけに　いりひうすれ
+みわたすやまのは　かすみふかし"></textarea>
+      </div>
+    </div>
+    <div id="option-container">
+      <div id="romaji-setting">
+        <h2>ローマ字変換規則</h2>
+        <select id="romaji-setting-preset">
+          <option>プリセットから選択</option>
+          <option id="kunrei">訓令式風(Flash版標準)</option>
+          <option id="hepburn">ヘボン式風</option>
+        </select>
+        <div class="romaji-setting-item">
+          <span>じ</span>
+          <input type="radio" name="romaji-じ" id="romaji-じ-z" value="Z">
+          <label for="romaji-じ-z">Z</label>
+          <input type="radio" name="romaji-じ" id="romaji-じ-j" value="J" checked>
+          <label for="romaji-じ-j">J</label>
+        </div>
+        <div class="romaji-setting-item">
+          <span>ち</span>
+          <input type="radio" name="romaji-ち" id="romaji-ち-t" value="T">
+          <label for="romaji-ち-t">T</label>
+          <input type="radio" name="romaji-ち" id="romaji-ち-c" value="C" checked>
+          <label for="romaji-ち-c">C</label>
+        </div>
+        <div class="romaji-setting-item">
+          <span>ふ</span>
+          <input type="radio" name="romaji-ふ" id="romaji-ふ-h" value="H">
+          <label for="romaji-ふ-h">H</label>
+          <input type="radio" name="romaji-ふ" id="romaji-ふ-f" value="F" checked>
+          <label for="romaji-ふ-f">F</label>
+        </div>
+        <div class="romaji-setting-item">
+          <span>ら行</span>
+          <input type="radio" name="romaji-ら" id="romaji-ら-r" value="R" checked>
+          <label for="romaji-ら-r">R</label>
+          <input type="radio" name="romaji-ら" id="romaji-ら-l" value="L">
+          <label for="romaji-ら-l">L</label>
+        </div>
+        <div class="romaji-setting-item">
+          <span>ん</span>
+          <input type="radio" name="romaji-ん" id="romaji-ん-n" value="N" checked>
+          <label for="romaji-ん-n">N</label>
+          <input type="radio" name="romaji-ん" id="romaji-ん-x" value="X">
+          <label for="romaji-ん-x">X</label>
+        </div>
+      </div>
+      <div id="option">
+        <h2>変換オプション</h2>
+        <select id="option-kirizma-mode">
+          <option id="romaji">ローマ字モード(27k/31k)</option>
+          <option id="kana">かなモード(47k/51k)</option>
+        </select>
+        <div id="option-scoreid">
+          <div class="option-item-number">
+            <label for="option-in-scoreid">入力譜面ID</label>
+            <input id="option-in-scoreid" type="number" value="0" min="0">
+          </div>
+          <div class="option-item-number">
+            <label for="option-out-scoreid">出力譜面ID</label>
+            <input id="option-out-scoreid" type="number" value="0" min="0">
+          </div>
+        </div>
+        <div class="option-item-checkbox">
+          <input type="checkbox" id="option-keep-onigiri" checked>
+          <label for="option-keep-onigiri">おにぎり(space)をそのまま残す</label>
+        </div>
+        <div class="option-item-checkbox">
+          <input type="checkbox" id="option-keep-4key">
+          <label for="option-keep-4key">4keyをそのまま残す(31k/51k)</label>
+        </div>
+        <div class="option-item-checkbox">
+          <input type="checkbox" id="option-use-sleft">
+          <label for="option-use-sleft">4keyにsleft,sdown,sup,srightを使う(31k/51k)</label>
+        </div>
+        <input type="button" id="convert-button" value="変換する">
+      </div>
+    </div>
+    <p>
+      適当な譜面データと歌詞のかな文字データを組み合わせて、キリズマ用の譜面データを生成します。<br>
+      <a href="https://github.com/suzme/kirizma-converter/">詳しい説明はこちら(準備中)</a>
+    </p>
+    <p id="version"></p>
+    <script src="index.js"></script>
+  </body>
+</html>
