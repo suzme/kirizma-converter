@@ -91,13 +91,13 @@ const kirizma_convert = () => {
   }
 
   if (keep_onigiri) {
-    keep('space')
+    ['space', 'frzSpace'].forEach(keep)
   }
   if (keep_4key) {
     if (use_sleft) {
-      ['sleft', 'sdown', 'sup', 'sright'].forEach(keep)
+      ['sleft', 'sdown', 'sup', 'sright', 'sfrzLeft', 'sfrzDown', 'sfrzUp', 'sfrzRight'].forEach(keep)
     } else {
-      ['left', 'down', 'up', 'right'].forEach(keep)
+      ['left', 'down', 'up', 'right', 'frzLeft', 'frzDown', 'frzUp', 'frzRight'].forEach(keep)
     }
   }
 
@@ -130,12 +130,13 @@ const kirizma_convert = () => {
 
   // キープしたおにぎり/4keyを戻す
   if (keep_4key) {
-    ['left', 'down', 'up', 'right'].forEach(name => {
+    ['left', 'down', 'up', 'right', 'frzLeft', 'frzDown', 'frzUp', 'frzRight'].forEach(name => {
       out_str += name + out_scoreid + '_data=' + keep_data[(use_sleft ? 's' : '') + name] + '|'
     })
   }
   if (keep_onigiri) {
     out_str += 'space' + out_scoreid + '_data=' + keep_data['space'] + '|'
+    out_str += 'frzSpace' + out_scoreid + '_data=' + keep_data['frzSpace'] + '|'
   }
 
   navigator.clipboard.writeText(out_str)
