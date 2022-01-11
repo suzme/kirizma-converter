@@ -76,9 +76,9 @@ const kirizma_convert = () => {
     .filter(a => a[0].match(new RegExp(in_scoreid + '[^0-9]_data$')))  // 指定した入力譜面番号のデータを抽出
 
   // 除外する変数名
-  const ignore = 'speed,boost,acolor,color,word,back,mask,arrowMotion,frzMotion'.split(',')
+  const ignore = 'acolor,color,word,back,mask,arrowMotion,frzMotion'.split(',')
 
-  // おにぎり/4keyをそのまま残す処理
+  // おにぎり等をそのまま残す処理
   const keep_data = {}
   const keep = (name) => {
     ignore.push(name)
@@ -89,6 +89,8 @@ const kirizma_convert = () => {
       keep_data[name] = ''
     }
   }
+
+  ['speed', 'boost'].forEach(keep)
 
   if (keep_onigiri) {
     ['space', 'frzSpace'].forEach(keep)
@@ -125,10 +127,12 @@ const kirizma_convert = () => {
   // 出力譜面データの生成
   let out_str = 
     '|' + target_vars
-    .map(name => 'key' + name + out_scoreid + '_data=' + out_data[name]
-    .join(',')).join('|') + '|'
+    .map(name => 'key' + name + out_scoreid + '_data=' + out_data[name].join(','))
+    .join('|') + '|'
 
-  // キープしたおにぎり/4keyを戻す
+  out_str += target_vars.map(name => 'frzKey' + name + out_scoreid + '_data=').join('|') + '|'
+
+  // キープしたおにぎり等を戻す
   if (keep_4key) {
     ['left', 'down', 'up', 'right', 'frzLeft', 'frzDown', 'frzUp', 'frzRight'].forEach(name => {
       out_str += name + out_scoreid + '_data=' + keep_data[(use_sleft ? 's' : '') + name] + '|'
@@ -138,6 +142,9 @@ const kirizma_convert = () => {
     out_str += 'space' + out_scoreid + '_data=' + keep_data['space'] + '|'
     out_str += 'frzSpace' + out_scoreid + '_data=' + keep_data['frzSpace'] + '|'
   }
+
+  out_str += 'speed' + out_scoreid + '_data=' + keep_data['speed'] + '|'
+  out_str += 'boost' + out_scoreid + '_data=' + keep_data['boost'] + '|'
 
   navigator.clipboard.writeText(out_str)
   document.getElementById('convert-result').className = ''
