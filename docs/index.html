@@ -90,12 +90,14 @@
           <input type="checkbox" id="option-use-sleft">
           <label for="option-use-sleft">4keyにsleft,sdown,sup,srightを使う(31k/51k)</label>
         </div>
-        <input type="button" id="convert-button" value="変換する">
+        <div id="convert-button-container">
+          <input type="button" id="convert-button" value="変換する">
+          <div id="convert-result">結果をクリップボードにコピーしました！</div>
+        </div>
       </div>
     </div>
     <p>
       適当な譜面データと歌詞のかな文字データを組み合わせて、キリズマ用の譜面データを生成します。<br>
-      変換結果はクリップボードにコピーされます。<br>
       <a href="https://github.com/suzme/kirizma-converter/">詳しい説明はこちら(準備中)</a>
     </p>
     <p id="version"></p>

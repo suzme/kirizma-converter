@@ -139,6 +139,12 @@ const kirizma_convert = () => {
   }
 
   navigator.clipboard.writeText(out_str)
+  document.getElementById('convert-result').className = ''
+  requestAnimationFrame(() => {
+    requestAnimationFrame(() => {
+      document.getElementById('convert-result').className = 'convert-result-animation'
+    })
+  })
 }
 
 

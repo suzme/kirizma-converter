@@ -5,11 +5,14 @@
   box-sizing: border-box;
 }
 
+html {
+  font-size: 12pt;
+}
+
 body {
   background: #fefefe;
   color: #333333;
-  padding: 1em;
-  font-size: 12pt;
+  padding: 1rem;
   font-family: 'YU Gothic UI', 'Meiryo UI', sans-serif;
 }
 
@@ -23,12 +26,12 @@ p {
 
 h1 {
   font-size: 140%;
-  margin-bottom: 0.5em;
+  margin-bottom: 0.5rem;
 }
 
 h2 {
   font-size: 120%;
-  margin-bottom: 0.5em;
+  margin-bottom: 0.5rem;
 }
 
 /**
@@ -40,12 +43,12 @@ h2 {
 
 #input-container > div {
   width: 400px;
-  margin-bottom: 1em;
+  margin-bottom: 1rem;
 }
 
 #input-container textarea {
   width: 100%;
-  height: 4em;
+  height: 4rem;
 }
 
 /**
@@ -57,60 +60,100 @@ h2 {
 
 #option {
   float: left;
-  width: 20em;
+  width: 25rem;
 }
 
 #option-kirizma-mode, #option-scoreid {
-  margin-bottom: 0.2em;
+  margin-bottom: 0.2rem;
 }
 
 #option-scoreid label {
   display: block;
   float: left;
-  width: 5.5em;
+  width: 5.5rem;
 }
 
 #option-scoreid input {
-  width: 4em;
+  width: 4rem;
 }
 
 #romaji-setting {
   float: left;
-  width: 15em;
-}
-
-#convert-button {
-  margin-top: 0.5em;
-  padding: 0.1em;
-  font-size: 110%;
+  width: 15rem;
 }
 
 #romaji-setting-preset {
-  margin-bottom: 0.2em;
+  margin-bottom: 0.2rem;
 }
 
 .romaji-setting-item {
-  height: 1.5em;
+  height: 1.5rem;
   overflow: hidden;
 }
 
 .romaji-setting-item > span {
   display: block;
   float: left;
-  width: 3em;
+  width: 3rem;
   height: 100%;
 }
 
 .romaji-setting-item > label {
   display: block;
   float: left;
-  width: 2em;
+  width: 2rem;
   height: 100%;
 }
 
 .romaji-setting-item > input[type="radio"] {
   float: left;
-  width: 1em;
+  width: 1rem;
   height: 100%;
   margin-right: 4px;
+}
+
+#convert-button-container {
+  overflow: hidden;
+  height: 3rem;
+}
+
+#convert-button {
+  float: left;
+  margin-top: 0.5rem;
+  padding: 0.1rem;
+  height: 2rem;
+  font-size: 110%;
+}
+
+#convert-result {
+  float: left;
+  height: 2rem;
+  margin-left: 1rem;
+  margin-top: 0.5rem;
+  padding: 0.1rem;
+  font-size: 110%;
+  display: grid;
+  place-items: center;
+  background: pink;
+  opacity: 0%;
+}
+
+.convert-result-animation {
+  opacity: 0%;
+  animation: fadeout 2s linear forwards;
+}
+
+@keyframes fadeout {
+  0% {
+    opacity: 0%;
+  }
+  4% {
+    opacity: 100%;
+  }
+  90% {
+    opacity: 100%;
+  }
+  100% {
+    opacity: 0%;
+  }
 }
