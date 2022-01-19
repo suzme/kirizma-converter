@@ -1,5 +1,5 @@
 'use strict'
-const ver = 'Ver. 2022-01-12-0'
+const ver = 'Ver. 2022-01-20-0'
 
 /**
  * 読み込み時の初期設定
@@ -37,16 +37,23 @@ const romaji_peset_changed = e => {
  * 変換メイン
  */
 const kirizma_convert = () => {
-  // 入力データ
-  const input_dos = document.getElementById('input-dos').value
-  const input_kana = document.getElementById('input-kana').value
-    .replace(/[^あ-ん]|[ぁぃぅぇぉゃゅょっゐゑ]/g, '').split('') // 使用可能なひらがな以外削除して配列にする
-
   // ローマ字/かな切り替え
   const mode_ = document.getElementById('option-kirizma-mode')
   const mode = mode_.options[mode_.selectedIndex].id
   const target_vars = mode === 'kana' ? kana_vars : romaji_vars
   const convert_char = mode === 'kana' ? convert_kana : convert_romaji
+
+  // 入力データ
+  const input_dos = document.getElementById('input-dos').value
+  let input_kana = document.getElementById('input-kana').value
+  .replace(/[ａ-ｚＡ-Ｚ]/g, s => String.fromCharCode(s.charCodeAt() - 0xfee0)) // 半角化
+  .replace(/[a-z]/g, s => String.fromCharCode(s.charCodeAt() - 0x20)) // 大文字化
+  .replace(/[^あ-んA-Z]|[ぁぃぅぇぉゃゅょっゐゑ]/g, '') // 使用可能なひらがな以外削除して配列にする
+
+  if (mode === 'kana') {
+    input_kana = input_kana.replace(/[A-Z]/g, '')
+  }
+  const input_kana_arr = input_kana.split('')
 
   // ローマ字変換規則
   const use_j = document.getElementById('romaji-じ-j').checked
@@ -119,8 +126,8 @@ const kirizma_convert = () => {
   target_vars.forEach(name => out_data[name] = [])
 
   frames.forEach((frame, i) => {
-    if (input_kana[i]) {
-      out_data[convert_char(input_kana[i], use_j, use_c, use_f, use_l, use_x)].push(frame)
+    if (input_kana_arr[i]) {
+      out_data[convert_char(input_kana_arr[i], use_j, use_c, use_f, use_l, use_x)].push(frame)
     }
   })
 
@@ -207,6 +214,8 @@ const romaji_table = {
   'ば':'B', 'び':'B', 'ぶ':'B', 'べ':'B', 'ぼ':'B',
   'ぱ':'P', 'ぴ':'P', 'ぷ':'P', 'ぺ':'P', 'ぽ':'P'
 }
+
+romaji_vars.forEach(c => romaji_table[c] = c)
 
 // かな入力時の変数名への変換表(デフォルト)
 const kana_table = {
