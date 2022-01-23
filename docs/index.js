@@ -1,5 +1,5 @@
 'use strict'
-const ver = 'Ver. 2022-01-23-0'
+const ver = 'Ver. 2022-01-23-1'
 
 /**
  * 読み込み時の初期設定
@@ -62,11 +62,11 @@ const kirizma_convert = () => {
   const use_l = document.getElementById('romaji-ら-l').checked
   const use_x = document.getElementById('romaji-ん-x').checked
 
-  // scoreId
-  const in_scoreid_ = document.getElementById('option-in-scoreid').value
-  const in_scoreid = in_scoreid_ === '0' ? '' : in_scoreid_
-  const out_scoreid_ = document.getElementById('option-out-scoreid').value
-  const out_scoreid = out_scoreid_ === '0' ? '' : out_scoreid_
+  // 譜面番号
+  const in_score_no_ = document.getElementById('option-in-score-no').value
+  const in_score_no = in_score_no_ === '1' ? '' : in_score_no_
+  const out_score_no_ = document.getElementById('option-out-score-no').value
+  const out_score_no = out_score_no_ === '1' ? '' : out_score_no_
 
   // 変換オプション
   const keep_onigiri = document.getElementById('option-keep-onigiri').checked
@@ -80,7 +80,7 @@ const kirizma_convert = () => {
     .replace(/^\|+|\|+$/g, '') // 先頭と末尾の | を削除
     .split('|')                // | で分割
     .map(s => s.split('='))    // = で分割 (left_data=200,300,400 -> ['left_data','200,300,400'])
-    .filter(a => a[0].match(new RegExp('[^0-9]' + in_scoreid + '_data$')))  // 指定した入力譜面番号のデータを抽出
+    .filter(a => a[0].match(new RegExp('[^0-9]' + in_score_no + '_data$')))  // 指定した入力譜面番号のデータを抽出
 
   // 除外する変数名
   const ignore = 'acolor,color,word,back,mask,arrowMotion,frzMotion'.split(',')
@@ -114,7 +114,7 @@ const kirizma_convert = () => {
   const frames = dos_obj.filter(
     a => a[1] !== '' &&  // 空白は無視
     !a[0].match(         // 要らない変数を除外
-      new RegExp(ignore.map(name => name + in_scoreid + '_data').join('|') + '|^frz')
+      new RegExp(ignore.map(name => name + in_score_no + '_data').join('|') + '|^frz')
     )
   )
   .reduce((acc, val) => acc.concat(val[1].split(',')), []) // フレーム値を分割して1つの配列にまとめる
@@ -134,24 +134,24 @@ const kirizma_convert = () => {
   // 出力譜面データの生成
   let out_str = 
     '|' + target_vars
-    .map(name => 'key' + name + out_scoreid + '_data=' + out_data[name].join(','))
+    .map(name => 'key' + name + out_score_no + '_data=' + out_data[name].join(','))
     .join('|') + '|'
 
-  out_str += target_vars.map(name => 'frzKey' + name + out_scoreid + '_data=').join('|') + '|'
+  out_str += target_vars.map(name => 'frzKey' + name + out_score_no + '_data=').join('|') + '|'
 
   // キープしたおにぎり等を戻す
   if (keep_4key) {
     ['left', 'down', 'up', 'right', 'frzLeft', 'frzDown', 'frzUp', 'frzRight'].forEach(name => {
-      out_str += name + out_scoreid + '_data=' + keep_data[(use_sleft ? 's' : '') + name] + '|'
+      out_str += name + out_score_no + '_data=' + keep_data[(use_sleft ? 's' : '') + name] + '|'
     })
   }
   if (keep_onigiri) {
-    out_str += 'space' + out_scoreid + '_data=' + keep_data['space'] + '|'
-    out_str += 'frzSpace' + out_scoreid + '_data=' + keep_data['frzSpace'] + '|'
+    out_str += 'space' + out_score_no + '_data=' + keep_data['space'] + '|'
+    out_str += 'frzSpace' + out_score_no + '_data=' + keep_data['frzSpace'] + '|'
   }
 
-  out_str += 'speed' + out_scoreid + '_data=' + keep_data['speed'] + '|'
-  out_str += 'boost' + out_scoreid + '_data=' + keep_data['boost'] + '|'
+  out_str += 'speed' + out_score_no + '_data=' + keep_data['speed'] + '|'
+  out_str += 'boost' + out_score_no + '_data=' + keep_data['boost'] + '|'
 
   navigator.clipboard.writeText(out_str)
   document.getElementById('convert-result').className = ''
