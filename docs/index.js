@@ -1,5 +1,5 @@
 'use strict'
-const ver = 'Ver. 2022-01-20-0'
+const ver = 'Ver. 2022-01-23-0'
 
 /**
  * 読み込み時の初期設定
@@ -80,7 +80,7 @@ const kirizma_convert = () => {
     .replace(/^\|+|\|+$/g, '') // 先頭と末尾の | を削除
     .split('|')                // | で分割
     .map(s => s.split('='))    // = で分割 (left_data=200,300,400 -> ['left_data','200,300,400'])
-    .filter(a => a[0].match(new RegExp(in_scoreid + '[^0-9]_data$')))  // 指定した入力譜面番号のデータを抽出
+    .filter(a => a[0].match(new RegExp('[^0-9]' + in_scoreid + '_data$')))  // 指定した入力譜面番号のデータを抽出
 
   // 除外する変数名
   const ignore = 'acolor,color,word,back,mask,arrowMotion,frzMotion'.split(',')
