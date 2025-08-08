@@ -133,8 +133,10 @@ const kirizma_convert = () => {
       return
     }
 
-    if (input_kana_arr[i + 1] && input_kana_arr[i + 1] === 'ー') {
-      // 直後が「ー」の場合はフリーズアローへ割当
+    if (input_kana_arr[i + 1] && input_kana_arr[i + 1] === 'ー'
+      && input_kana_arr[i + 2] && input_kana_arr[i + 2] === 'ー'
+    ) {
+      // 直後が「ーー」の場合はフリーズアローへ割当
       out_frz_data[convert_char(input_kana_arr[i], use_j, use_c, use_f, use_l, use_x)].push(frame, frames[i + 1])
     } else if (input_kana_arr[i]) {
       // それ以外は矢印へ割当
