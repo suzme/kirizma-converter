@@ -48,7 +48,7 @@ const kirizma_convert = () => {
   let input_kana = document.getElementById('input-kana').value
   .replace(/[ａ-ｚＡ-Ｚ]/g, s => String.fromCharCode(s.charCodeAt() - 0xfee0)) // 半角化
   .replace(/[a-z]/g, s => String.fromCharCode(s.charCodeAt() - 0x20)) // 大文字化
-  .replace(/[^あ-んA-Z]|[ぁぃぅぇぉゃゅょっゐゑ]/g, '') // 使用可能なひらがな以外削除して配列にする
+  .replace(/[^あ-んーA-Z]|[ぁぃぅぇぉゃゅょっゐゑ]/g, '') // 使用可能なひらがな以外削除して配列にする
 
   if (mode === 'kana') {
     input_kana = input_kana.replace(/[A-Z]/g, '')
@@ -114,7 +114,7 @@ const kirizma_convert = () => {
   const frames = dos_obj.filter(
     a => a[1] !== '' &&  // 空白は無視
     !a[0].match(         // 要らない変数を除外
-      new RegExp(ignore.map(name => name + in_score_no + '_data').join('|') + '|^frz')
+      new RegExp(ignore.map(name => name + in_score_no + '_data').join('|'))
     )
   )
   .reduce((acc, val) => acc.concat(val[1].split(',')), []) // フレーム値を分割して1つの配列にまとめる
@@ -123,10 +123,21 @@ const kirizma_convert = () => {
 
   // キーごとのデータを生成
   const out_data = {}
+  const out_frz_data = {}
   target_vars.forEach(name => out_data[name] = [])
+  target_vars.forEach(name => out_frz_data[name] = [])
 
   frames.forEach((frame, i) => {
-    if (input_kana_arr[i]) {
+    // 「ー」の場合はスキップ
+    if (input_kana_arr[i] === 'ー') {
+      return
+    }
+
+    if (input_kana_arr[i + 1] && input_kana_arr[i + 1] === 'ー') {
+      // 直後が「ー」の場合はフリーズアローへ割当
+      out_frz_data[convert_char(input_kana_arr[i], use_j, use_c, use_f, use_l, use_x)].push(frame, frames[i + 1])
+    } else if (input_kana_arr[i]) {
+      // それ以外は矢印へ割当
       out_data[convert_char(input_kana_arr[i], use_j, use_c, use_f, use_l, use_x)].push(frame)
     }
   })
@@ -136,8 +147,10 @@ const kirizma_convert = () => {
     '|' + target_vars
     .map(name => 'key' + name + out_score_no + '_data=' + out_data[name].join(','))
     .join('|') + '|'
-
-  out_str += target_vars.map(name => 'frzKey' + name + out_score_no + '_data=').join('|') + '|'
+  out_str +=
+    '\n|' + target_vars
+    .map(name => 'frzKey' + name + out_score_no + '_data=' + out_frz_data[name].join(','))
+    .join('|') + '|'
 
   // キープしたおにぎり等を戻す
   if (keep_4key) {
