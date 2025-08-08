@@ -48,7 +48,7 @@ const kirizma_convert = () => {
   let input_kana = document.getElementById('input-kana').value
   .replace(/[ａ-ｚＡ-Ｚ]/g, s => String.fromCharCode(s.charCodeAt() - 0xfee0)) // 半角化
   .replace(/[a-z]/g, s => String.fromCharCode(s.charCodeAt() - 0x20)) // 大文字化
-  .replace(/[^あ-んーA-Z]|[ぁぃぅぇぉゃゅょっゐゑ]/g, '') // 使用可能なひらがな以外削除して配列にする
+  .replace(/[^あ-んA-Z＝]|[ぁぃぅぇぉゃゅょっゐゑ]/g, '') // 使用可能なひらがな以外削除して配列にする
 
   if (mode === 'kana') {
     input_kana = input_kana.replace(/[A-Z]/g, '')
@@ -133,8 +133,7 @@ const kirizma_convert = () => {
       return
     }
 
-    if (input_kana_arr[i + 1] && input_kana_arr[i + 1] === 'ー'
-      && input_kana_arr[i + 2] && input_kana_arr[i + 2] === 'ー'
+    if (input_kana_arr[i + 1] && input_kana_arr[i + 1] === '＝'
     ) {
       // 直後が「ーー」の場合はフリーズアローへ割当
       out_frz_data[convert_char(input_kana_arr[i], use_j, use_c, use_f, use_l, use_x)].push(frame, frames[i + 1])
