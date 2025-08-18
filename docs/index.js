@@ -42,6 +42,8 @@ const kirizma_convert = () => {
   const mode = mode_.options[mode_.selectedIndex].id
   const target_vars = mode === 'kana' ? kana_vars : romaji_vars
   const convert_char = mode === 'kana' ? convert_kana : convert_romaji
+
+  // フリーズ識別子
   const frz_char = '＝'
 
   // 入力データ
@@ -129,14 +131,14 @@ const kirizma_convert = () => {
   target_vars.forEach(name => out_frz_data[name] = [])
 
   frames.forEach((frame, i) => {
-    // 「ー」の場合はスキップ
+    // フリーズ識別子の場合はスキップ
     if (input_kana_arr[i] === frz_char) {
       return
     }
 
     if (input_kana_arr[i + 1] && input_kana_arr[i + 1] === frz_char
     ) {
-      // 直後が「ーー」の場合はフリーズアローへ割当
+      // 直後がフリーズ識別子の場合は自身とその次のデータをフリーズノートへ割当
       out_frz_data[convert_char(input_kana_arr[i], use_j, use_c, use_f, use_l, use_x)].push(frame, frames[i + 1])
     } else if (input_kana_arr[i]) {
       // それ以外は矢印へ割当
