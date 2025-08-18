@@ -131,8 +131,8 @@ const kirizma_convert = () => {
   target_vars.forEach(name => out_frz_data[name] = [])
 
   frames.forEach((frame, i) => {
-    // フリーズ識別子の場合はスキップ
     if (input_kana_arr[i] === frz_char) {
+      // フリーズ識別子の場合はスキップ
       return
     }
 
