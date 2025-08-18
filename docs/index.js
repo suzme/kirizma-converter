@@ -136,8 +136,7 @@ const kirizma_convert = () => {
       return
     }
 
-    if (input_kana_arr[i + 1] && input_kana_arr[i + 1] === frz_char
-    ) {
+    if (input_kana_arr[i + 1] && input_kana_arr[i + 1] === frz_char) {
       // 直後がフリーズ識別子の場合は自身とその次のデータをフリーズノートへ割当
       out_frz_data[convert_char(input_kana_arr[i], use_j, use_c, use_f, use_l, use_x)].push(frame, frames[i + 1])
     } else if (input_kana_arr[i]) {
