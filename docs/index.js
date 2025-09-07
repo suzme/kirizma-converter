@@ -1,5 +1,5 @@
 'use strict'
-const ver = 'Ver. 2022-01-23-1'
+const ver = 'Ver. 2025-09-08-0'
 
 /**
  * 読み込み時の初期設定
